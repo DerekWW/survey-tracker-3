@@ -20,6 +20,7 @@ const authUser = () => {
       resolve(theUser);
     }, (error) => {
       console.log(error);
+      reject(error);
     });
   });
 };
