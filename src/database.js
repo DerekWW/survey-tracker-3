@@ -2,6 +2,7 @@
 import firebase from 'firebase';
 
 let database = null;
+/* eslint-disable no-func */
 
 const init = function () {
   database = firebase.database();

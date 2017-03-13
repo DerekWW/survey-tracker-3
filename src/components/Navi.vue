@@ -1,13 +1,11 @@
 <template lang="html">
   <nav>
   <div class="nav-wrapper">
-    <a href="#" class="brand-logo">Survey Tracker</a>
-    <div class="right" id="firebaseui-auth-container" >
+    <router-link to="/" class="brand-logo">Survey Tracker</router-link>
 
-    </div>
-    <div class="right">
-      <button type="button" name="button" v-on:click="logout">Logout</button>
-    </div>
+    <router-link to="/" class="right">
+      <a class="waves-effect waves-light btn" v-on:click="logout">Logout</a>
+    </router-link>
   </div>
 </nav>
 </template>
@@ -16,6 +14,8 @@
 import auth from '../auth';
 
 export default {
+  /* eslint-disable no-console */
+
   name: 'Navi',
   data() {
     return {
@@ -25,6 +25,9 @@ export default {
   props: ['user'],
   methods: {
     logout: auth.logout,
+  },
+  mounted: function check() {
+    console.log(this.user, this.user.uid);
   },
 };
 </script>

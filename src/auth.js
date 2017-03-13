@@ -39,8 +39,13 @@ const _initAuthUI = () => {
   const uiConfig = {
     signInSuccessUrl: '/#/dashboard',
     signInOptions: [
+      {
+        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        scopes: [
+          'https://www.googleapis.com/auth/spreadsheets.readonly',
+        ],
+      },
       // Leave the lines as is for the providers you want to offer your users.
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     ],
     // Terms of service url.
     tosUrl: '/',
@@ -59,12 +64,20 @@ const _checkUser = (theUser) => {
     user.emailVerified = theUser.emailVerified;
     user.photoURL = theUser.photoURL;
     user.uid = theUser.uid;
+    user.isLogged = true;
+    user.providerData = theUser.providerData;
+    theUser.getToken().then((token) => {
+      user.accessToken = token;
+    })
   } else {
     user.displayName = '';
     user.email = '';
     user.emailVerified = false;
     user.photoURL = '';
     user.uid = '';
+    user.isLogged = false;
+    user.providerData = '';
+    user.accessToken = '';
     _initAuthUI();
   };
 };
