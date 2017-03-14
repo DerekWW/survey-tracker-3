@@ -16,6 +16,7 @@ const getUser = () => {
 const authUser = () => {
   return new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged((theUser) => {
+      console.log(theUser);
       _checkUser(theUser);
       resolve(theUser);
     }, (error) => {
@@ -28,11 +29,11 @@ const authUser = () => {
 const logout = () => {
   firebase.auth().signOut().then(() => {
     // Sign-out successful.
-    window.location.reload();
+
   }, (error) => {
-    // An error happened.
+      console.log('error in logout');// An error happened.
     console.log(error);
-    window.location.reload();
+    // window.location.reload();
   });
 };
 
@@ -46,10 +47,10 @@ const _initAuthUI = () => {
           'https://www.googleapis.com/auth/spreadsheets.readonly',
         ],
       },
-      // Leave the lines as is for the providers you want to offer your users.
     ],
     // Terms of service url.
     tosUrl: '/',
+    signInFlow: 'popup',
   };
 
   // Initialize the FirebaseUI Widget using Firebase.

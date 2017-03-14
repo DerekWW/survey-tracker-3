@@ -3,8 +3,12 @@
   <div class="nav-wrapper">
     <router-link to="/" class="brand-logo">Survey Tracker</router-link>
 
+    <ul class="right">
+      <li v-on:click='logout'><router-link to="/">Home</router-link></li>
+    </ul>
+
     <router-link to="/" class="right">
-      <a class="waves-effect waves-light btn" v-on:click="logout">Logout</a>
+      <a class="waves-effect waves-light btn" href='#' v-on:click="logout">Logout</a>
     </router-link>
   </div>
 </nav>
