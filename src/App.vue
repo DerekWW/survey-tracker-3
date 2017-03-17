@@ -1,7 +1,7 @@
 <template>
 <div id="app">
-  <navi :user="user" @checkIfLogged="checkIfLogged"></navi>
-  <router-view :user="user"></router-view>
+  <navi :user="user" v-on:getUser="getUser"></navi>
+  <router-view :user="user" v-on:getUser="getUser"></router-view>
 </div>
 </template>
 
@@ -9,7 +9,6 @@
 import navi from './components/Navi';
 import auth from './auth';
 
-const user = auth.getUser();
 export default {
   name: 'app',
   components: {
@@ -17,13 +16,16 @@ export default {
   },
   data() {
     return {
-      user,
+      user: '',
     };
   },
   methods: {
-    checkIfLogged: () => {
-      this.$emit('checkIfLogged');
+    getUser() {
+      this.user = auth.getUser();
     },
+  },
+  mounted() {
+    this.getUser();
   },
 };
 </script>

@@ -31,7 +31,7 @@ export default {
     logout: auth.logout,
   },
   mounted: function check() {
-    console.log(this.user, this.user.uid);
+    console.log(this.user);
   },
 };
 </script>

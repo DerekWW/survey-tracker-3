@@ -9,48 +9,59 @@ const user = {
   uid: '',
 };
 
+
 const getUser = () => {
+  console.log('getting user');
   return user;
-};
+}
+
+
 
 const authUser = () => {
   return new Promise((resolve, reject) => {
-    firebase.auth().onAuthStateChanged((theUser) => {
-      console.log(theUser);
-      _checkUser(theUser);
-      resolve(theUser);
-    }, (error) => {
-      console.log(error);
-      reject(error);
-    });
-  });
-};
+    firebase.auth()
+      .onAuthStateChanged((theUser) => {
+        _checkUser(theUser)
+        resolve(theUser)
+      }, (error) => {
+        console.log(error)
+        reject(error);
+      })
+  })
+}
 
 const logout = () => {
-  firebase.auth().signOut().then(() => {
-    // Sign-out successful.
-
-  }, (error) => {
-      console.log('error in logout');// An error happened.
-    console.log(error);
-    // window.location.reload();
-  });
+  firebase.auth()
+    .signOut()
+    .then(() => {
+      // Sign-out successful.
+      window.location.reload()
+    }, (error) => {
+      console.log('error in logout'); // An error happened.
+      console.log(error);
+      window.location.reload();
+    });
 };
 
 const _initAuthUI = () => {
   const uiConfig = {
-    signInSuccessUrl: '/#/dashboard',
-    signInOptions: [
-      {
-        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        scopes: [
-          'https://www.googleapis.com/auth/spreadsheets.readonly',
-        ],
+    callbacks: {
+      signInSuccess: function(currentUser, credential, redirectUrl) {
+        // user = currentUser;
+        console.log('adding creds');
+        user.google = credential
+        return true
       },
-    ],
+    },
+    signInSuccessUrl: '/#/dashboard',
+    signInOptions: [{
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      scopes: [
+        'https://www.googleapis.com/auth/spreadsheets.readonly',
+      ],
+    }, ],
     // Terms of service url.
     tosUrl: '/',
-    signInFlow: 'popup',
   };
 
   // Initialize the FirebaseUI Widget using Firebase.
@@ -61,6 +72,7 @@ const _initAuthUI = () => {
 
 const _checkUser = (theUser) => {
   if (theUser) {
+    console.log(theUser);
     user.displayName = theUser.displayName;
     user.email = theUser.email;
     user.emailVerified = theUser.emailVerified;
@@ -68,10 +80,15 @@ const _checkUser = (theUser) => {
     user.uid = theUser.uid;
     user.isLogged = true;
     user.providerData = theUser.providerData;
-    theUser.getToken().then((token) => {
-      user.accessToken = token;
-    })
+    user.apiKey = theUser.apiKey;
+    theUser.getToken()
+      .then((token) => {
+        user.accessToken = token;
+      })
+    console.log('The User: ' ,theUser);
   } else {
+    console.log('NOT LOGGED IN checkUser function');
+    user = {}
     user.displayName = '';
     user.email = '';
     user.emailVerified = false;
@@ -84,4 +101,8 @@ const _checkUser = (theUser) => {
   };
 };
 
-export default { getUser, logout, authUser };
+export default {
+  getUser,
+  logout,
+  authUser,
+};

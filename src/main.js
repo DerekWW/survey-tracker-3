@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import * as firebase from 'firebase';
 import vuefire from 'vuefire';
+import vueResource from 'vue-resource';
 import App from './App';
 import router from './router';
 import database from './database';
@@ -10,6 +11,7 @@ import database from './database';
 Vue.config.productionTip = false;
 
 Vue.use(vuefire);
+Vue.use(vueResource);
 
 const config = {
   apiKey: 'AIzaSyDVvtSK4fZ6htviqyvwUsMAQ-MYbPkgCEk',
@@ -25,7 +27,19 @@ const initApp = () => {
 };
 
 initApp();
+/*eslint-disable*/
 
+// function start() {
+//   gapi.client.init({
+//     apiKey: 'AIzaSyDVvtSK4fZ6htviqyvwUsMAQ-MYbPkgCEk',
+//   }).then((res) => {
+//     console.log('swag');
+//     console.log(res);
+//   });
+//
+// }
+
+// gapi.load('client', start)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

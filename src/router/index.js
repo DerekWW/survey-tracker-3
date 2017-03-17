@@ -27,27 +27,32 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  let user;
-  auth.authUser()
-    .then(() => {
-      user = auth.getUser();
-      console.log(user.isLogged);
-      if (to.meta.requiresAuth) {
-        if (user.isLogged) {
-          next();
-        } else {
-          next({
-            path: '/',
-          });
-        }
-      }
-
-      if (!to.meta.requiresAuth) {
-        next();
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+  auth.authUser().then(() => {
+    setTimeout(next(), 3000);
+  });
 });
+// router.beforeEach((to, from, next) => {
+//   let user;
+//   auth.authUser()
+//     .then(() => {
+//       user = auth.getUser();
+//       console.log(user.isLogged);
+//       if (to.meta.requiresAuth) {
+//         if (user.isLogged) {
+//           next();
+//         } else {
+//           next({
+//             path: '/',
+//           });
+//         }
+//       }
+//
+//       if (!to.meta.requiresAuth) {
+//         next();
+//       }
+//     }).catch((err) => {
+//       console.log(err);
+//     });
+// });
 
 export default router;
